@@ -359,7 +359,11 @@ def get_table_structure(db, table):
     """获取创建表DDL语句"""
     res = db.query("show create table %s" % table)
     for item in res:
-        return item['Create Table'] + ';'
+        if item.has_key('Create Table'):
+            return item['Create Table'] + ';'
+        if item.has_key('Create View'):
+            return item['Create View'] + ';'
+        return ''
 
 
 def desc(db, table):
